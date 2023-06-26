@@ -37,6 +37,7 @@ class MainActivity extends AppCompatActivity implements SelectListener {
 
 
     }
+
     private final onFetchDataListener<NewsApiResponses> listener = new onFetchDataListener<NewsApiResponses>() {
         @Override
         public

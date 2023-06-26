@@ -28,6 +28,7 @@ class RequestManager {
         Call<NewsApiResponses> call =newApiCall.callHeadlines("in",category,query,context.getString(R.string.api_key));
 
         try{
+
             call.enqueue(new Callback<NewsApiResponses>() {
                 @Override
                 public
@@ -62,6 +63,7 @@ class RequestManager {
     public interface NewApiCall{
         @GET("top-headlines")
             Call<NewsApiResponses> callHeadlines(
+
                     @Query("country") String country,
                     @Query("category") String category,
                     @Query("q") String query,
