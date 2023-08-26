@@ -8,13 +8,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.newsapp.Model.NewsApiResponses;
+
 import com.example.newsapp.Model.NewsHeadlines;
 
 import java.util.List;
 
 public
-class MainActivity extends AppCompatActivity implements SelectListener {
+class MainActivity extends AppCompatActivity implements SelectListener,onFetchDataListener {
     // recycle
     RecyclerView recyclerView;
     CustomViewAdapter customViewAdapter;
@@ -31,27 +31,14 @@ class MainActivity extends AppCompatActivity implements SelectListener {
         // the request manager handeles the api call
 
         RequestManager manager = new RequestManager(this);
-        manager.getNewsHeadlines(listener,"general",null);
+        manager.getNewsHeadlines(this,"general",null);
 
 
 
 
     }
 
-    private final onFetchDataListener<NewsApiResponses> listener = new onFetchDataListener<NewsApiResponses>() {
-        @Override
-        public
-        void onFetchData(List<NewsHeadlines> list, String message) {
-            showNews(list);
 
-        }
-
-        @Override
-        public
-        void onError(String message) {
-
-        }
-    };
 
     private
     void showNews(List<NewsHeadlines> list) {
@@ -70,6 +57,16 @@ class MainActivity extends AppCompatActivity implements SelectListener {
         // the data we get from recycle adapter through interface
         startActivity(new Intent(MainActivity.this,DetailNewsActivity.class).putExtra("data",newsHeadlines));
 
+
+    }
+
+    @Override
+    public void onFetchData(List list, String message) {
+        showNews(list);
+    }
+
+    @Override
+    public void onError(String message) {
 
     }
 }

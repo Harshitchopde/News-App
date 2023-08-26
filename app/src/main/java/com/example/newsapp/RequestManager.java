@@ -10,12 +10,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public
 class RequestManager {
     Context context;
+    public
+    RequestManager(Context context) {
+        this.context = context;
+    }
+
     Retrofit retrofit = new Retrofit.Builder()
             // this is the base url to fetch data
             .baseUrl("https://newsapi.org/v2/")
@@ -25,9 +28,10 @@ class RequestManager {
 //     ---
     public void getNewsHeadlines(onFetchDataListener listener, String category,String query){
         NewApiCall newApiCall = retrofit.create(NewApiCall.class);
-        Call<NewsApiResponses> call =newApiCall.callHeadlines("in",category,query,context.getString(R.string.api_key));
+        Call<NewsApiResponses> call = newApiCall.callHeadlines("in",category,query,context.getString(R.string.api_key));
 
         try{
+
 
             call.enqueue(new Callback<NewsApiResponses>() {
                 @Override
@@ -53,22 +57,5 @@ class RequestManager {
         catch (Exception e){
             e.printStackTrace();
         }
-    }
-    public
-    RequestManager(Context context) {
-        this.context = context;
-    }
-
-
-    public interface NewApiCall{
-        @GET("top-headlines")
-            Call<NewsApiResponses> callHeadlines(
-
-                    @Query("country") String country,
-                    @Query("category") String category,
-                    @Query("q") String query,
-                    @Query("apiKey") String api_key
-
-            );
     }
 }
